@@ -213,4 +213,4 @@ We welcome contributions to improve APPT. Please feel free to submit issues and 
 
 ## License
 
-This project is distributed under the X License. See LICENSE for details.
+This project is distributed under the CC BY NC SA License. See LICENSE for details.
