@@ -1,0 +1,12 @@
+{
+    "best_params": {
+        "embedding_dim": 384,
+        "linear_dim": 160,
+        "num_attention_layers": 4,
+        "num_heads": 8,
+        "dropout_rate": 0.30000000000000004,
+        "batch_size": 64,
+        "learning_rate": 7.921855588769157e-06
+    },
+    "best_val_loss": 0.29263632992903393
+}

@@ -1,0 +1,11 @@
+Metric,Value
+dG_MSE,2.8681
+dG_RMSE,1.6935
+dG_MAE,1.3052
+dG_R_value,0.8011
+dG_R_squared,0.6417
+dG_pearson_value,0.8011
+dG_spearman_rho,0.7887
+pKd_MSE,1.5412
+pKd_MAE,0.9568
+pKd_RMSE,1.2414
