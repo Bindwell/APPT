@@ -40,7 +40,7 @@ def parse_args():
     parser.add_argument('--model_path', type=str, 
                       default='models/protein_protein_affinity_esm_vs_ankh_best.pt',
                       help='Path to trained model checkpoint')
-    parser.add_argument('--data_path', type=str, default='Data.csv',
+    parser.add_argument('--data_path', type=str, default='data/Data.csv',
                       help='Path to training data for normalization parameters')
     parser.add_argument('--batch_size', type=int, default=16,
                       help='Batch size for inference')
