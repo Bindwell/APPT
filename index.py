@@ -269,7 +269,7 @@ class ProteinProteinAffinityTrainer:
                     protein1_sequences: List[str],
                     protein2_sequences: List[str],
                     affinities: List[float],
-                    benchmark_path: str = "benchmark.csv",
+                    benchmark_path: str = "benchmark/benchmark.csv",
                     batch_size: int = 32,
                     test_size: float = 0) -> Tuple[DataLoader, DataLoader, DataLoader]:
         """Prepare train, validation, and test data loaders"""
