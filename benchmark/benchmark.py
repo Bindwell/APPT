@@ -18,7 +18,7 @@ from esm.sdk.api import ESMProtein, LogitsConfig
 import json
 from typing import * 
 import math
-def calculate_mean_scale(data_path: str = "data/Data.csv"):
+def calculate_mean_scale(data_path: str = "./data/Data.csv"):
     mean = 7.504182527098148
     scale = 2.1676455136517343
     return mean, scale
