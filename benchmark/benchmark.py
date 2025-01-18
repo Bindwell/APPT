@@ -23,7 +23,7 @@ def calculate_mean_scale(data_path: str = "data/Data.csv"):
     scale = 2.1676455136517343
     return mean, scale
 
-def get_hyperparams(data_path: str = "output/hyperopt_results.json"):
+def get_hyperparams(data_path: str = "./output/hyperopt_results.json"):
     with open(data_path, 'r') as file:
         params = json.load(file)['best_params']  
     return tuple(params.values())
@@ -192,7 +192,7 @@ def calculate_metrics(actual, predicted):
         'Spearman_p': spearman_p
     }
 
-def run_inference(input_csv, model_path='models/protein_protein_affinity_esm_vs_ankh_best.pt', data_path='data/Data.csv'):
+def run_inference(input_csv, model_path='./models/protein_protein_affinity_esm_vs_ankh_best.pt', data_path='./data/Data.csv'):
     """Run inference using the trained model on protein pairs"""
     logging.basicConfig(level=logging.INFO)
     logger = logging.getLogger(__name__)
