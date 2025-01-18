@@ -1,0 +1,34 @@
+name: bindwell_appt
+channels:
+  - pytorch
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - pip
+  - pytorch>=1.13.1
+  - transformers
+  - pandas
+  - scipy
+  - numpy>=1.17
+  - biopython
+  - rdkit>=2023.9.4
+  - scikit-learn
+  - requests
+  - tqdm
+  - pillow
+  - torchmetrics
+  - pip:
+    - onnxruntime
+    - diskcache
+    - datasets
+    - evaluate
+    - huggingface-hub
+    - accelerate
+    - fair-esm
+    - ankh
+    - optuna
+    - matplotlib
+    - seaborn
+    - scikit-learn
+  
