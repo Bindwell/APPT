@@ -28,7 +28,15 @@ For extra assistance installing please see our [Bindwell AI]([https://chatgpt.co
    pip install -r requirements.txt
    cd embedding_cache_2560
    wget https://huggingface.co/Bindwell/APPT/resolve/main/caches.pt
+   cd ..
    ```
+Or, if you prefer conda 
+
+```bash
+conda env create -f environment.yml
+conda activate bindwell_appt
+```
+
 3. Run Inference
 
    ```bash
