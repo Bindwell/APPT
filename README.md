@@ -48,6 +48,30 @@ For extra assistance installing please see our [Bindwell AI]([https://chatgpt.co
    python cli.py --sequences ABC DEF
    ```
 
+## Docker
+
+You can also run the model using Docker:
+
+1. Build the Docker image locally:
+
+   ```bash
+   docker build -t appt .
+   ```
+
+   Or pull the pre-built image from Docker Hub:
+
+   ```bash
+   docker pull cford38/appt:latest
+   ```
+
+2. Run the Docker container:
+
+   ```bash
+   docker run --gpus all --rm --name appt -it appt /bin/bash
+   # docker run --gpus all --rm --name appt -it cford38/appt:latest /bin/bash
+   ```
+
+
 ## Performance Evaluation
 
 Our model demonstrates superior performance compared to existing methods across multiple metrics:
