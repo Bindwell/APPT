@@ -29,6 +29,7 @@ For extra assistance installing please see our [Bindwell AI]([https://chatgpt.co
    cd embedding_cache_2560
    wget https://huggingface.co/Bindwell/APPT/resolve/main/caches.pt
    cd ..
+   mkdir models/
    cd models
    wget https://huggingface.co/Bindwell/APPT/resolve/main/protein_protein_affinity_esm_vs_ankh_best.pt
    cd ..
