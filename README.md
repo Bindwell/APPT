@@ -26,6 +26,7 @@ For extra assistance installing please see our [Bindwell AI]([https://chatgpt.co
 
    ```bash
    pip install -r requirements.txt
+   mkdir embedding_cache_2560
    cd embedding_cache_2560
    wget https://huggingface.co/Bindwell/APPT/resolve/main/caches.pt
    cd ..
