@@ -61,6 +61,12 @@ def parse_args():
     parser.add_argument('--dropout_rate', type=float, default=0.1,
                       help='Dropout rate')
     
+    # Add concordance index calculation option
+    parser.add_argument('--calculate_concordance', action='store_true',
+                      help='Calculate concordance index if true labels are provided')
+    parser.add_argument('--true_pkd_col', type=str, default='pkd',
+                      help='Column name for true pKd values in CSV (default: pkd)')
+    
     return parser.parse_args()
 
 def load_sequences_from_csv(file_path: str, protein1_col: str, protein2_col: str) -> Tuple[List[str], List[str]]:
@@ -112,6 +118,18 @@ class ModelConfig:
          self.batch_size,
          self.learning_rate) = get_hyperparams(hyperparams_path) if hyperparams_path else default_params
 
+def calculate_concordance_index(y_true, y_pred):
+    """Calculate concordance index between true and predicted values."""
+    concordant = 0
+    total = 0
+    for i in range(len(y_true)):
+        for j in range(i + 1, len(y_true)):
+            if y_true[i] != y_true[j]:
+                total += 1
+                if (y_true[i] > y_true[j] and y_pred[i] > y_pred[j]) or \
+                   (y_true[i] < y_true[j] and y_pred[i] < y_pred[j]):
+                    concordant += 1
+    return concordant / total if total > 0 else 0
 
 def run_batch_inference(
     protein_sequences1: List[str],
@@ -119,10 +137,12 @@ def run_batch_inference(
     trainer,
     batch_size: int,
     mean: float,
-    scale: float
+    scale: float,
+    true_values: Optional[List[float]] = None
 ) -> pd.DataFrame:
     """Run inference in batches."""
     results = []
+    all_predictions = []
     
     for i in tqdm(range(0, len(protein_sequences1), batch_size), desc="Processing batches"):
         batch_seq1 = protein_sequences1[i:i + batch_size]
@@ -144,13 +164,23 @@ def run_batch_inference(
             predictions = (normalized_preds * scale + mean).cpu().numpy()
             
             for seq1, seq2, pred in zip(batch_seq1, batch_seq2, predictions):
+                all_predictions.append(pred)
                 results.append({
                     'Protein1_Sequence': seq1,
                     'Protein2_Sequence': seq2,
                     'Predicted_pKd': float(pred)
                 })
     
-    return pd.DataFrame(results)
+    # Create DataFrame and add rankings
+    results_df = pd.DataFrame(results)
+    results_df['Rank'] = results_df['Predicted_pKd'].rank(ascending=False)
+    
+    # Calculate concordance index if true values are provided
+    if true_values is not None:
+        concordance = calculate_concordance_index(true_values, all_predictions)
+        results_df.attrs['concordance_index'] = concordance
+    
+    return results_df
 
 def main():
     # Parse arguments
@@ -206,20 +236,35 @@ def main():
     
     # Run inference
     try:
+        true_values = None
+        if args.input_csv and args.calculate_concordance:
+            df = pd.read_csv(args.input_csv)
+            if args.true_pkd_col in df.columns:
+                true_values = df[args.true_pkd_col].tolist()
+                logger.info("Found true pKd values for concordance index calculation")
+        
         results_df = run_batch_inference(
             sequences1,
             sequences2,
             trainer,
             args.batch_size,
             mean,
-            scale
+            scale,
+            true_values
         )
         
         # Save results
         output_file = output_dir / 'binding_predictions.csv'
         results_df.to_csv(output_file, index=False)
         logger.info(f"Results saved to {output_file}")
-        print(results_df)        
+        
+        # Print results summary
+        print("\nResults Summary:")
+        print(results_df[['Protein1_Sequence', 'Protein2_Sequence', 'Predicted_pKd', 'Rank']])
+        
+        if hasattr(results_df, 'attrs') and 'concordance_index' in results_df.attrs:
+            print(f"\nConcordance Index: {results_df.attrs['concordance_index']:.3f}")
+            
     except Exception as e:
         logger.error(f"Error during inference: {str(e)}")
 
