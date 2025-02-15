@@ -166,6 +166,8 @@ python cli.py \
     --input_csv data/protein_pairs.csv \
     --protein1_col protein1_sequence \
     --protein2_col protein2_sequence \
+    --calculate_concordance \
+    --true_pkd_col pkd \
     --output_dir results \
     --model_path models/protein_protein_affinity_esm_vs_ankh_best.pt \
     --device cuda
@@ -193,6 +195,8 @@ python cli.py \
 
 - `--protein1_col`: Column name for first protein sequences in CSV (default: 'protein1_sequence')
 - `--protein2_col`: Column name for second protein sequences in CSV (default: 'protein2_sequence')
+- `--calculate_concordance`: Calculate concordance index if true labels are provided
+- `--true_pkd_col`: Column name for true pKd values in CSV (default: 'pkd')
 - `--output_dir`: Directory to save results (default: 'output')
 - `--model_path`: Path to trained model checkpoint (default: 'models/protein_protein_affinity_esm_vs_ankh_best.pt')
 - `--data_path`: Path to training data for normalization parameters (default: 'Data.csv')
@@ -215,13 +219,16 @@ The script saves results to a CSV file in the specified output directory (defaul
 - Protein1_Sequence: First protein sequence
 - Protein2_Sequence: Second protein sequence
 - Predicted_pKd: Predicted binding affinity (pKd value)
+- Rank: Ranking of predictions (1 being highest predicted pKd)
+
+If concordance index is calculated (using `--calculate_concordance`), it will be displayed in the console output.
 
 Example output CSV:
 
 ```csv
-Protein1_Sequence,Protein2_Sequence,Predicted_pKd
-SEQUENCE1A,SEQUENCE1B,7.24
-SEQUENCE2A,SEQUENCE2B,6.85
+Protein1_Sequence,Protein2_Sequence,Predicted_pKd,Rank
+SEQUENCE1A,SEQUENCE1B,7.24,2
+SEQUENCE2A,SEQUENCE2B,6.85,3
 ```
 
 ## Project Structure
